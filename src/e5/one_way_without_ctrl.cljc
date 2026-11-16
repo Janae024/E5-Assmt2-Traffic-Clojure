@@ -3,7 +3,7 @@
 
 (def one-way-without-ctrl
   (fsm/machine
-   {:initial :r
+   {:initial :r ;;initial state is r (red)
 
     :states
     {:r
