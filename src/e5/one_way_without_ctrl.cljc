@@ -3,10 +3,17 @@
 
 (def one-way-without-ctrl
   (fsm/machine
-  {:initial :r
-   
-   :transitions
-   {[:r :next] :ra
-    [:ra :next] :g
-    [:g :next] :a
-    [:a :next] :r}}))
+   {:initial :r
+
+    :states
+    {:r
+     {:on {::next :ra
+           :ra
+           {:on {:next :g
+                 :g
+                 {:on {:next :a}}
+                 :a
+                 {:on {:next :r}}}}}}}}))
+
+(defn new-service []
+  (fsm/service one-way-without-ctrl))
