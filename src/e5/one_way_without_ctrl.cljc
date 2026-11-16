@@ -1,6 +1,7 @@
 (ns e5.one-way-without-ctrl
   (:require [statecharts.core :as fsm]))
 
+
 (def one-way-without-ctrl
   (fsm/machine
    {:id :one-way-without-ctrl
@@ -13,3 +14,5 @@
 
 (defn new-service []
   (fsm/service one-way-without-ctrl))
+
+  
