@@ -129,3 +129,16 @@
 
     (is (= :stopped
            (fsm/value service)))))
+
+;;Test 10: In R5, there should be no ocnflicting green
+(deftest R5-no-conflicting-greens
+  (let [service (traffic/new-service)]
+    (fsm/start service)
+
+    (fsm/send service :run)
+    (fsm/send service :next)
+    (fsm/send service :next)
+
+    ;; Should only be west green, never north or south green simultaneously
+    (is (= :w_g
+           (fsm/value service)))))
