@@ -56,3 +56,5 @@
            :halt :stopped}} 
      }}))
 
+(defn new-service []
+  (fsm/service three-way))
