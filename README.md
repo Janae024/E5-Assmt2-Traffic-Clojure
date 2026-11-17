@@ -1,1 +1,1 @@
-# Artifacts for the CSCU9E5 Assignment 2
+# CSCU9E5 Assignment 2 - Traffic Light Statecharts
