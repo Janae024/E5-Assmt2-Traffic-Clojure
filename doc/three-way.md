@@ -19,16 +19,24 @@ stateDiagram-v2
 
     [*] --> stopped
 
-    stopped --> w-r : run
+    stopped --> w_r : run
 
-    w-r --> w-ra : next
-    w-ra --> w-g : next
-    w-g --> w-a : next
-    w-a --> n-r : next
+    w_r --> w_ra : next
+    w_ra --> w_g : next
+    w_g --> w_a : next
+    w_a --> n_r : next
 
-    
+    n_r --> n_ra : next
+    n_ra --> n_g : next
+    n_g --> n_a : next
+    n_a --> s_r : next
 
-    west --> stopped : halt
-    north --> stopped : halt
-    south --> stopped : halt
+    s_r --> s_ra : next
+    s_ra --> s_g : next
+    s_g --> s_a : next
+    s_a --> w_r : next
+
+    w_r --> stopped : halt
+    n_r --> stopped : halt
+    s_r --> stopped : halt
 ```
