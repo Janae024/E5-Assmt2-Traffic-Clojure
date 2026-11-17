@@ -10,6 +10,8 @@ This statechart models a single traffic signal operating continuously using only
 - **R3**: The cycle repeats using the minimum number of transitions required to reach green again.
 - **R8**: The signal eventually reaches green during every cycle.
 
+---
+
 ```mermaid
 stateDiagram-v2
 
