@@ -19,11 +19,14 @@ stateDiagram-v2
 
     [*] --> stopped
 
-    stopped --> west: run
+    stopped --> w-r : run
 
-    west --> north : next
-    north --> south :next    
-    south --> west : next
+    w-r --> w-ra : next
+    w-ra --> w-g : next
+    w-g --> w-a : next
+    w-a --> n-r : next
+
+    
 
     west --> stopped : halt
     north --> stopped : halt
