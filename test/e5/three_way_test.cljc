@@ -33,7 +33,7 @@
           (fsm/value service)))))
 
 ;; Test 4: State mentioned in R4 (West-red-amber -> West-green)
-(deftest R4-west-r-to-ra
+(deftest R4-west-ra-to-g
   (let [service (traffic/new-service)]
     (fsm/start service)
 
@@ -60,7 +60,7 @@
     (is (= :n_r
            (fsm/value service)))))
 
-;; Test 6: In R8, where West cycle eventually reaches South cycle.
+;; Test 6: In R8, where North cycle eventually reaches South cycle.
 (deftest R8-north-to-south
   (let [service (traffic/new-service)]
     (fsm/start service)
@@ -110,7 +110,7 @@
            (fsm/value service)))))
 
 ;; Test 8: The colors should not change without a "next" event (R6)
-(deftest R6-no-change-without-text
+(deftest R6-no-change-without-next
   (let [service (traffic/new-service)]
     (fsm/start service)
 
@@ -119,8 +119,8 @@
     (is (= :w_r
            (fsm/value service)))))
 
-;; Test 9: In r10, halt should return the system to stopped
-(deftest R6-no-change-without-text
+;; Test 9: In R10, halt should return the system to stopped
+(deftest R10-halt-to-stopped
   (let [service (traffic/new-service)]
     (fsm/start service)
 
@@ -130,7 +130,7 @@
     (is (= :stopped
            (fsm/value service)))))
 
-;;Test 10: In R5, there should be no ocnflicting green
+;;Test 10: In R5, only  one direction should be green at a time
 (deftest R5-no-conflicting-greens
   (let [service (traffic/new-service)]
     (fsm/start service)
@@ -139,6 +139,6 @@
     (fsm/send service :next)
     (fsm/send service :next)
 
-    ;; Should only be west green, never north or south green simultaneously
+    ;; west should only be green, not north or south green simultaneously
     (is (= :w_g
            (fsm/value service)))))
