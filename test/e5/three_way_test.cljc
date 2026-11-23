@@ -120,7 +120,7 @@
            (fsm/value service)))))
 
 ;; Test 9: In R10, halt should return the system to stopped
-(deftest R10-halt-to-stopped
+(deftest R10-halt-from-red
   (let [service (traffic/new-service)]
     (fsm/start service)
 
@@ -141,4 +141,46 @@
 
     ;; west should only be green, not north or south green simultaneously
     (is (= :w_g
+           (fsm/value service)))))
+
+;; Test 11: A new safe halt from green
+(deftest R10-halt-from-west-green
+  (let [service (traffic/new-service)]
+    (fsm/start service)
+
+    (fsm/send service :run)
+    (fsm/send service :next)
+    (fsm/send service :next)
+
+    ;; currently :w_g
+    (fsm/send service :halt)
+
+    (is (= :w_halting_g
+           (fsm/value service)))))
+
+;; Test 12: finishes the whole cycle before stopping
+(deftest R10-finish-west-cycle-before-stopping
+  (let [service (traffic/new-service)]
+    (fsm/start service)
+
+    (fsm/send service :run)
+    (fsm/send service :next)
+    (fsm/send service :next)
+
+    ;; halt at w_g
+    (fsm/send service :halt)
+
+    ;; should now be w_halting_g
+    (is (= :w_halting_g
+           (fsm/value service)))
+
+    (fsm/send service :next)
+
+    ;; should now be w_halting_a
+    (is (= :w_halting_a
+           (fsm/value service)))
+
+    (fsm/send service :next)
+
+    (is (= :stopped
            (fsm/value service)))))
