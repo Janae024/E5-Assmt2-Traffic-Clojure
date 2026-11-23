@@ -131,7 +131,7 @@
            (fsm/value service)))))
 
 ;;Test 10: In R5, only  one direction should be green at a time
-(deftest R5-no-conflicting-greens
+(deftest R5-prevents-conflicting-signals
   (let [service (traffic/new-service)]
     (fsm/start service)
 
@@ -139,8 +139,20 @@
     (fsm/send service :next)
     (fsm/send service :next)
 
-    ;; west should only be green, not north or south green simultaneously
+    ;; West reaches green
     (is (= :w_g
+           (fsm/value service)))
+
+    ;; Must pass through west amber before north begins
+    (fsm/send service :next)
+
+    (is (= :w_a
+           (fsm/value service)))
+
+    ;; Only after west amber finishes can north start
+    (fsm/send service :next)
+
+    (is (= :n_r
            (fsm/value service)))))
 
 ;; Test 11: A new safe halt from green
@@ -170,13 +182,11 @@
     ;; halt at w_g
     (fsm/send service :halt)
 
-    ;; should now be w_halting_g
     (is (= :w_halting_g
            (fsm/value service)))
 
     (fsm/send service :next)
 
-    ;; should now be w_halting_a
     (is (= :w_halting_a
            (fsm/value service)))
 

@@ -29,7 +29,7 @@ stateDiagram-v2
     g --> halting_g : halt
     a --> halting_a : halt
 
-    halting_ra --> g : next
-    halting_g --> a : next
+    halting_ra --> halting_g : next
+    halting_g --> halting_a : next
     halting_a --> stopped : next
 ```

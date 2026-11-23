@@ -1,6 +1,12 @@
 (ns e5.three-way
   (:require [statecharts.core :as fsm]))
 
+;; Only one signal is active in each state. This prevents conflicting green lights (R5).
+
+;; Halting states allow the active signal to finish its cycle before returning to the all-red state.
+
+;; Halting from w_r stops immediately because all directions are already effectively red.
+
 (def three-way
   (fsm/machine
    {:id :three-way
@@ -29,10 +35,10 @@
            :halt :w_halting_a}}
 
      :w_halting_ra
-     {:on {:next :w_g}}
+     {:on {:next :w_halting_g}}
 
      :w_halting_g
-     {:on {:next :w_a}}
+     {:on {:next :w_halting_a}}
 
      :w_halting_a
      {:on {:next :stopped}}
@@ -55,10 +61,10 @@
            :halt :n_halting_a}}
 
      :n_halting_ra
-     {:on {:next :n_g}}
+     {:on {:next :n_halting_g}}
 
      :n_halting_g
-     {:on {:next :n_a}}
+     {:on {:next :n_halting_a}}
 
      :n_halting_a
      {:on {:next :stopped}}
@@ -81,10 +87,10 @@
            :halt :s_halting_a}}
 
      :s_halting_ra
-     {:on {:next :s_g}}
+     {:on {:next :s_halting_g}}
 
      :s_halting_g
-     {:on {:next :s_a}}
+     {:on {:next :s_halting_a}}
 
      :s_halting_a
      {:on {:next :stopped}}}}))
@@ -93,15 +99,14 @@
   (fsm/service three-way))
 
 (comment
-  ;; Exercise the three-way specification
+ ;; Exercise the three-way specification
 
-  (def service (new-service))
-
+  (def service(new-service))
   (fsm/start service)
-  ;; => :stopped
+  ;; => stopped
 
   (fsm/send service :run)
-  ;; => :w_r
+  ; => :w_r
 
   (fsm/send service :next)
   ;; => :w_ra
@@ -113,10 +118,8 @@
   ;; => :w_halting_g
 
   (fsm/send service :next)
-  ;; => :w_a
+  ;; => :w_halting_a
 
-  (fsm/send service :halt)
-
-  (fsm/send service :next)
-  ;; => :stopped
+ (fsm/send service :next)
+  ;; => stopped)
   )

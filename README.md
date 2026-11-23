@@ -12,9 +12,9 @@ The project structures and verifies the behavious of the traffic light system us
 ### 1. One-Way Traffic Lights Without Control
 Files:
 
-- `src/e5/one-way-without-ctrl.cljc`
-- `test/e5/one-way-without-ctrl-test.cljc`
-- `docs/one-way-without-ctrl.md`
+- `src/e5/one_way_without-ctrl.cljc`
+- `test/e5/one_way_without_ctrl_test.cljc`
+- `docs/one_way_without_ctrl.md`
 
 Description:
 A single traffic signal that continuously cycles throughout the UK traffic-light sequence
@@ -27,9 +27,9 @@ A single traffic signal that continuously cycles throughout the UK traffic-light
 ### 2. One-Way Traffic Lights
 Files:
 
-- `src/e5/one-way.cljc`
-- `test/e5/one-way-test.cljc`
-- `docs/one-way.md`
+- `src/e5/one_way.cljc`
+- `test/e5/one_way_test.cljc`
+- `doc/one_way.md`
 
 Description:
 A single traffic signal that supports
@@ -43,9 +43,9 @@ A single traffic signal that supports
 ### Three-Way Traffic Lights
 Files:
 
-- `src/e5/three-way.cljc`
-- `test/e5/three-way-test.cljc`
-- `docs/three-way.md`
+- `src/e5/three_way.cljc`
+- `test/e5/three_way_test.cljc`
+- `doc/three_way.md`
 
 Description:
 A coordinated three-way traffic system that has:

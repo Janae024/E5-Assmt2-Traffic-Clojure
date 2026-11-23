@@ -81,14 +81,13 @@
     ;; g -> halt
     (fsm/send service :halt)
 
-    ;; halting_g -> a
+    ;; halting_g -> halting_a
     (fsm/send service :next)
 
-    (is (= :a
+    (is (= :halting_a
            (fsm/value service)))
 
     ;; halting_a -> stopped
-    (fsm/send service :halt)
     (fsm/send service :next)
 
     (is (= :stopped
