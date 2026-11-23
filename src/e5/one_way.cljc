@@ -17,17 +17,25 @@
 
      :ra
      {:on {:next :g
-           :halt :stopped}}
+           :halt :halting_ra}}
 
      :g
      {:on {:next :a
-           :halt :stopping}}
+           :halt :halting_g}}
 
      :a
      {:on {:next :r
-           :halt :stopping}}
+           :halt :halting_a}}
 
-     :stopping
+     ;; halting states
+
+     :halting_ra
+     {:on {:next :g}}
+
+     :halting_g
+     {:on {:next :a}}
+
+     :halting_a
      {:on {:next :stopped}}}}))
 
 (defn new-service []

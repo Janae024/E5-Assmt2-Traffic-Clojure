@@ -53,23 +53,24 @@
     (is (= :stopped
            (fsm/value service)))))
 
-;; Test 6: Important because halting while running should begin a smooth stop.
+;; Test 6: Important because halting while green should begin a safe shutdown.
 (deftest R10-halt-from-green
   (let [service (traffic/new-service)]
     (fsm/start service)
 
     (fsm/send service :run)
     (fsm/send service :next)
-    (fsm/send service :next) 
+    (fsm/send service :next)
 
+    ;; currently at :g
     (fsm/send service :halt)
 
-
-    (is (= :stopping
+    (is (= :halting_g
            (fsm/value service)))))
 
-;; Test 7: Important because shutdown must eventually return to the all-red state.
-(deftest R10-stopping-tostopped
+
+;; Test 7: Important because shutdown must complete the remaining cycle before stopping.
+(deftest R10-halting-to-stopped
   (let [service (traffic/new-service)]
     (fsm/start service)
 
@@ -77,9 +78,32 @@
     (fsm/send service :next)
     (fsm/send service :next)
 
+    ;; g -> halt
+    (fsm/send service :halt)
+
+    ;; halting_g -> a
+    (fsm/send service :next)
+
+    (is (= :a
+           (fsm/value service)))
+
+    ;; halting_a -> stopped
     (fsm/send service :halt)
     (fsm/send service :next)
 
-
     (is (= :stopped
+           (fsm/value service)))))
+
+;; Test 8: Halt from red+amber should not stop immediately.
+(deftest R10-halt-from-red-amber
+  (let [service (traffic/new-service)]
+    (fsm/start service)
+
+    (fsm/send service :run)
+    (fsm/send service :next)
+
+    ;; currently at :ra
+    (fsm/send service :halt)
+
+    (is (= :halting_ra
            (fsm/value service)))))

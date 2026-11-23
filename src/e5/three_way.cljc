@@ -12,20 +12,27 @@
      {:on {:run :w_r}}
 
      ;; West Cycle
-     :w_r
-     {:on {:next :w_ra
-           :halt :stopped}}
      :w_ra
      {:on {:next :w_g
-           :halt :stopped}}
+           :halt :w_halting_ra}}
 
      :w_g
      {:on {:next :w_a
-           :halt :stopped}}
+           :halt :w_halting_g}}
+
      :w_a
      {:on {:next :n_r
-           :halt :stopped}}
-     
+           :halt :w_halting_a}}
+
+     :w_halting_ra
+     {:on {:next :w_g}}
+
+     :w_halting_g
+     {:on {:next :w_a}}
+
+     :w_halting_a
+     {:on {:next :stopped}}
+
      ;; North cycle
      :n_r
      {:on {:next :n_ra
@@ -33,14 +40,14 @@
      :n_ra
      {:on {:next :n_g
            :halt :stopped}}
-     
+
      :n_g
      {:on {:next :n_a
            :halt :stopped}}
      :n_a
      {:on {:next :s_r
            :halt :stopped}}
-     
+
      ;; South cycle
      :s_r
      {:on {:next :s_ra
@@ -53,8 +60,7 @@
            :halt :stopped}}
      :s_a
      {:on {:next :w_r
-           :halt :stopped}} 
-     }}))
+           :halt :stopped}}}}))
 
 (defn new-service []
   (fsm/service three-way))
