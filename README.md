@@ -18,7 +18,7 @@ Files:
 
 Description:
 A single traffic signal that continuously cycles throughout the UK traffic-light sequence
-`:r → :ra → :g → :a → :r`
+`:r >> :ra >> :g >> :a >> :r`
 
 (This specification addresses requirements R1-R8.)
 
